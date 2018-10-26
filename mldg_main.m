@@ -39,7 +39,7 @@ function [mask_imgs] = create_mask_imgs_rand_uqe(img, result_size)
         mask_imgs{i, 1} = mask_imgs{i, 1} - rand_marix;
         % 0 xor 0 = 0
         % n xor 0 = 1
-        % so we mast pixel in 3rd result.
+        % so we mask pixel in 3rd result.
         mask_imgs{i, 1} = xor(mask_imgs{i, 1}, zero_matrix);
     end
     disp('mask images ok');
