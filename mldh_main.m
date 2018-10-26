@@ -5,7 +5,14 @@ test_img = [1, 12, 5, 42; 2, 78, 47, 8; 23, 12, 2, 5]; % 4 x 3
 images_after_mask1 = mask_image(uint8(test_img), 10);
 % or uint8 image:
 images_after_mask2 = mask_image(img1, 10);
+test_for_imshow();
 
+function test_for_imshow()
+    img1 = imread('./images/mldg1.jpg');
+    images_after_mask2 = mask_image(img1, 10);
+    num = size(images_after_mask2, 1);
+    imshow(images_after_mask2{1});
+end
 
 
 function [images_after_mask] = mask_image(original_img, result_size)
