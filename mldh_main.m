@@ -11,7 +11,9 @@ function test_for_imshow()
     img1 = imread('./images/mldg1.jpg');
     images_after_mask2 = mask_image(img1, 10);
     num = size(images_after_mask2, 1);
-    imshow(images_after_mask2{1});
+    for i = 1 : num
+        imshow(images_after_mask2{i};
+    end
 end
 
 
@@ -28,6 +30,8 @@ end
 function [mask_imgs] = create_mask_imgs_rand_uqe(img, result_size)
     % Create mask model matrix
     % Each pixel will be mask
+    
+    % This function has been speeded up.
     height = size(img, 1);
     width = size(img, 2);
     rand_marix = randi([1, result_size], height, width);
@@ -50,4 +54,28 @@ function [mask_imgs] = create_mask_imgs_rand_uqe(img, result_size)
         mask_imgs{i, 1} = xor(mask_imgs{i, 1}, zero_matrix);
     end
     disp('mask images ok');
+end
+
+function [mask_imgs] = create_mask_imgs_uniform(img, result_size, prob_mask)
+% img: original image
+% result_size: number of template
+% prob_mask: probability of uniform distribution
+    height = size(img, 1);
+    width = size(img, 2);
+    mask_imgs = cell(result_size, 1);
+    one_m =  ones(height, width);
+    for i = 1 : result_size
+        rand_matrix = rand(height, width) + 0.00001 * one_m; % in case of sign(0)
+        mask_matrix = -sign(rand_matrix - prob_mask * one_m);
+        mask_matrix = sign(mask_matrix + one_m);
+        mask_imgs{i, 1} = int8(mask_matrix);
+        % eg
+        % prob_mask = 0.6
+        % rand_matrix(1, 3) = 0.3
+        % 0.3 - 0.6 = -0.3
+        % so sign(-0.3) = -1 -> 1->(add 1) 2 ->sign->1
+        % and 0.8 -> -1->(add 1) 0 ->sign -> 0
+        % After processing, all number less than 0.6 become 1, others
+        % become 0
+    end
 end
