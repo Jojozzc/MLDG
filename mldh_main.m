@@ -12,7 +12,7 @@ function test_for_imshow()
     images_after_mask2 = mask_image(img1, 10);
     num = size(images_after_mask2, 1);
     for i = 1 : num
-        imshow(images_after_mask2{i};
+        imshow(images_after_mask2{i});
     end
 end
 
